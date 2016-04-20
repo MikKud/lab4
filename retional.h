@@ -13,7 +13,7 @@ class rat
 	int abs(int); // модуль числа
 public:
 	rat(int=0, int=1); // конструктор
-	void norm(); // функция для нормализации числа
+	void norm(); // функция для нормализации числа // public?
 	rat operator*(const rat&) const; // умножение рациональных (дробных) чисел
 	rat operator+(const rat&) const; // прибавление  рациональных (дробных) чисел
 };

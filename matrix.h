@@ -11,14 +11,14 @@ class Matrix {
     public:
         int rowCount;
         int columnCount;
-        int size;
+        int size; // зачем?
         rat **ptr;
     public:
         Matrix();
         Matrix(int, int);
         ~Matrix();
-        void setMatrix();
-        void getMatrix();
+        void setMatrix(); // не нашел
+        void getMatrix(); // print; const
         rat* operator[](int subscript);
        Matrix& operator+( Matrix &M) ;
    Matrix& operator=( Matrix& M);
@@ -32,7 +32,7 @@ class Matrix {
 
 Matrix::Matrix() {
     printf("Enter lines: ");
-    cin >> rowCount;
+    cin >> rowCount; // конструктор не должен считывать данные из потока. Нужен программный, интерфей, а не пользовательский.
     printf("Enter columns: ");
     cin >> columnCount;
     ptr = new rat*[rowCount];
@@ -53,7 +53,7 @@ Matrix::Matrix(int rowSize, int columnSize) {
 
 
 Matrix::~Matrix() {
-    delete[] ptr;
+    delete[] ptr; // утекли указатели
 }
 
 
@@ -70,9 +70,10 @@ void Matrix::getMatrix() {
 
 rat* Matrix::operator[](int subscrtipt)
 {
-    size = rowCount + columnCount;
+    size = rowCount + columnCount; // достаточно локальной переменной
+    // в ptr только rowCount элементов
     if (subscrtipt < 0 || subscrtipt >= size) {
-        cerr << "\n Ошибка индекса: " << subscrtipt << endl;
+        cerr << "\n Ошибка индекса: " << subscrtipt << endl; // исключение?
         exit(1); 
     }
     return ptr[subscrtipt]; 
@@ -83,7 +84,7 @@ rat* Matrix::operator[](int subscrtipt)
 
 Matrix& Matrix::operator+( Matrix &M) 
 {
-    static Matrix rezult(rowCount, columnCount);
+    static Matrix rezult(rowCount, columnCount); // проблемы с матрицами разной размерности
 	if(rowCount==M.rowCount && columnCount==M.columnCount)
 	{
 		for(int i=0;i<rowCount;i++)
