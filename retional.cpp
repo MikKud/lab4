@@ -3,9 +3,9 @@
 #include <iostream> 
 #include "retional.h" 
 using namespace std;
-int rat::abs(int x) // модуль числа
+int rat::abs(int x) // модуль числа // const
 {
-	if(x<0) return (-1)*x; 
+	if(x<0) return (-1)*x; // -x работает)
 	return x; 
 }
 
@@ -19,6 +19,7 @@ int rat::nod(int x, int y)// наибольший общий делитель
 		return x; 
 }
 rat::rat(int x, int y) // конструктор инициализирует рац. число // по умолчанию 0/1
+// uint parameters maybe?
 {
 if(!y || !x) 
 	{

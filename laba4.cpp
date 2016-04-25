@@ -57,7 +57,7 @@ int main()
 	C=~C;
 	C.getMatrix();
 	}
-	catch(char* str)
+	catch(char* str) // лучше использовать специализированные типы исключений
 	{
 		cout<<"SMTH WENT WRONG!"<<endl;
 		cout<<str<<endl;
