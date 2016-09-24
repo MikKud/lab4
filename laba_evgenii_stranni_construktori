@@ -1,0 +1,126 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <stdexcept>
+#include <string.h>
+
+using namespace std;
+
+class Base
+{
+public:
+    virtual ~Base(){}
+
+};
+class Noncopyable :virtual public Base
+{
+public:
+    Noncopyable()=default;
+    Noncopyable(const Noncopyable&)=delete;
+    Noncopyable(Noncopyable&&)=default;
+};
+class Nonmoveable :virtual public Base{
+public:
+    Nonmoveable()=default;
+    Nonmoveable(const Nonmoveable&)=default;
+    Nonmoveable(Nonmoveable&&)=delete;
+};
+template <class T, class Feature>
+class Container
+{
+    Feature f;
+    T mitem;
+public:
+    Container(const T& t):mitem(t)
+    {
+
+    }
+    const T& get()
+    {return mitem;}
+};
+using NonCopyAbleInt = Container<int, Noncopyable>;
+
+
+template<class T,size_t Size =2>
+class stack{
+public:
+    stack()
+    {
+        elements = new uint8_t[Size*sizeof(T)];
+    }
+    ~stack()
+    {
+        if(!elements)
+            return;
+       for(size_t i = 0; i<current;i++)
+           static_cast<T*>(elements)[i].~T();
+        delete[] elements;
+    }
+
+    stack(const stack& a )=delete;
+    stack(stack&& a)
+    {
+        elements=a.elements;
+        current = a.current;
+        a.elements=nullptr;
+    }
+
+
+    void push(const T& obj){
+        if(current!=Size)
+
+        {
+            new(elements + current * sizeof(T)) T(obj);
+            current++;
+        }
+        else
+            throw std::runtime_error("size dismatch");
+
+    }
+    template <class ...Args>
+    void push(Args& ...args)
+    {
+        if(current!=Size)
+
+        {
+            new(elements + current * sizeof(T)) T(args);
+            current++;
+        }
+        else
+            throw std::runtime_error("size dismatch");
+    }
+    T pop()
+    {
+        if(current==0)
+            throw runtime_error("sada");
+        return static_cast<T*>(elements)[--current];
+    }
+class MyClass1{
+    NonCopyAbleInt  mInt;
+    int mInt1;
+public:
+    MyClass1(NonCopyAbleInt&& a,const int b) :mInt(std::move(a)),mInt(b)
+    { }
+};
+private:
+    void* elements;
+    size_t current=0;
+};
+int main() {
+
+    NonCopyAbleInt nci(10);
+   MyClass1 variable(std::move(nci),5);
+
+stack<int> obj;
+obj.push(12);
+    obj.push(13);
+    auto b = new stack<int>;
+    b->push(3);
+    b->push(4);
+  cout<< b->pop();
+    delete b;
+
+
+    cout << "Hello, World!" << endl;
+    return 0;
+}
